@@ -35,12 +35,10 @@ class Bias(Layer):
 class ReLU(Layer):
     
     def Forward(self, inputs):
-        inputs[inputs < 0] = 0
-        return inputs
+        return inputs * (inputs > 0)
 
     def Backward(self, prev_inputs, dout):
-        dout[prev_inputs < 0] = 0.0
-        return dout
+        return dout * (prev_inputs >= 0)
 
 class Sigmoid(Layer):
     
@@ -48,7 +46,7 @@ class Sigmoid(Layer):
         return 1. / (1 + np.exp(-inputs))
 
     def Backward(self, prev_inputs, dout):
-        return (self.sigmoid(prev_inputs) * (1. - self.sigmoid(prev_inputs))) * dout
+        return (self.Forward(prev_inputs) * (1. - self.Forward(prev_inputs))) * dout
 
 class BinaryStochastic(Layer):
     
