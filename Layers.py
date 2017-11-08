@@ -38,7 +38,7 @@ class ReLU(Layer):
         return inputs * (inputs > 0)
 
     def Backward(self, prev_inputs, dout):
-        return dout * (prev_inputs >= 0)
+        return dout * (prev_inputs >= 0), None
 
 class Sigmoid(Layer):
     
@@ -46,7 +46,7 @@ class Sigmoid(Layer):
         return 1. / (1 + np.exp(-inputs))
 
     def Backward(self, prev_inputs, dout):
-        return (self.Forward(prev_inputs) * (1. - self.Forward(prev_inputs))) * dout
+        return (self.Forward(prev_inputs) * (1. - self.Forward(prev_inputs))) * dout, None
 
 class BinaryStochastic(Layer):
     
@@ -57,5 +57,5 @@ class BinaryStochastic(Layer):
         return inputs
 
     def Backward(self, prev_inputs, dout):
-        return dout
+        return dout, None
 
