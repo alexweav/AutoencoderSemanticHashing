@@ -16,19 +16,23 @@ def main():
     for layer in encoder:
         inputs[layer] = test
         test = layer.Forward(test)
-        print(test)
+        #print(test)
 
     decoder = autoencoder.Decoder()
     for layer in decoder:
         inputs[layer] = test
         test = layer.Forward(test)
-        print(test)
+        #print(test)
 
     loss, deriv = autoencoder.MSELoss(test_original, test)
     print("Loss: ", loss)
     print(deriv)
 
     for layer in reversed(decoder):
+        deriv, d_param = layer.Backward(inputs[layer], deriv)
+        print(deriv)
+
+    for layer in reversed(encoder):
         deriv, d_param = layer.Backward(inputs[layer], deriv)
         print(deriv)
 
