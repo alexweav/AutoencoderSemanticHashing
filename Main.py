@@ -11,6 +11,7 @@ def main():
 
     inputs = {}
     
+    """
     print(test)
     encoder = autoencoder.Encoder()
     for layer in encoder:
@@ -30,10 +31,20 @@ def main():
 
     for layer in reversed(decoder):
         deriv, d_param = layer.Backward(inputs[layer], deriv)
-        print(deriv)
+        print("input", inputs[layer].shape)
+        print("d_input", deriv.shape)
 
     for layer in reversed(encoder):
         deriv, d_param = layer.Backward(inputs[layer], deriv)
         print(deriv)
+    """
+    data, inputs = autoencoder.EvaluateEncoder(test, inputs)
+    print(data)
+    data, inputs = autoencoder.EvaluateDecoder(data, inputs)
+    print(data)
+    data, inputs = autoencoder.EvaluateFull(data)
+    print(data)
+
+
 
 main()

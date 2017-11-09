@@ -37,4 +37,20 @@ class Autoencoder(object):
         d_loss = reconstruction-image
         return loss, d_loss
 
+    def EvaluateEncoder(self, data, inputs={}):
+        for layer in self.encoder:
+            inputs[layer] = data
+            data = layer.Forward(data)
+        return data, inputs
+
+
+    def EvaluateDecoder(self, data, inputs={}):
+        for layer in self.decoder:
+            inputs[layer] = data
+            data = layer.Forward(data)
+        return data, inputs
+
+    def EvaluateFull(self, data, inputs={}):
+        code, inputs = self.EvaluateEncoder(data, inputs)
+        return self.EvaluateDecoder(code, inputs)
 
