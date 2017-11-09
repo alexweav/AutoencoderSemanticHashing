@@ -8,7 +8,7 @@ class Layer(object):
     def Backward(self, prev_inputs, dout):
         raise NotImplementedError('Calling an abstract method')
 
-    def Parameter():
+    def Param(self):
         raise NotImplementedError('Calling an abstract method')
 
 class MatMul(Layer):
@@ -23,7 +23,7 @@ class MatMul(Layer):
         self.d_weights = np.dot(prev_inputs.T, dout)
         return np.dot(dout, self.weights.T), self.d_weights
 
-    def Param():
+    def Param(self):
         return self.weights
 
 class Bias(Layer):
@@ -38,7 +38,7 @@ class Bias(Layer):
         self.d_bias = np.sum(dout, axis=0)
         return dout, self.d_bias
 
-    def Param():
+    def Param(self):
         return self.bias
 
 class ReLU(Layer):
@@ -49,7 +49,7 @@ class ReLU(Layer):
     def Backward(self, prev_inputs, dout):
         return dout * (prev_inputs >= 0), None
 
-    def Param():
+    def Param(self):
         return None
 
 class Sigmoid(Layer):
@@ -60,7 +60,7 @@ class Sigmoid(Layer):
     def Backward(self, prev_inputs, dout):
         return (self.Forward(prev_inputs) * (1. - self.Forward(prev_inputs))) * dout, None
 
-    def Param():
+    def Param(self):
         return None
 
 class BinaryStochastic(Layer):
@@ -74,6 +74,6 @@ class BinaryStochastic(Layer):
     def Backward(self, prev_inputs, dout):
         return dout, None
 
-    def Param():
+    def Param(self):
         return None
 

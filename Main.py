@@ -1,6 +1,7 @@
 from Layers import *
 from DataLoaders import *
 from Autoencoder import *
+from Optimizers import *
 
 def main():
     data = LoadMNIST()
@@ -19,6 +20,12 @@ def main():
     print(data)
     loss, deriv = autoencoder.MSELoss(test_original, data)
     grads = autoencoder.Backprop(inputs, deriv)
+    optim = AdamOptimizer(1, 0.99, 0.99)
+    cache = {}
+    theta, cache = optim.Optimize(autoencoder.Decoder()[-1].Param(), grads[autoencoder.Decoder()[-1]][1], cache)
+    print('final bias')
+    print(autoencoder.Decoder()[-1].Param())
+    print(theta)
 
 
 
