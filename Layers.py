@@ -11,6 +11,9 @@ class Layer(object):
     def Param(self):
         raise NotImplementedError('Calling an abstract method')
 
+    def Optimize(self, optimizer, optimizer_cache, d_param):
+        raise NotImplementedError('Calling an abstract method')
+
 class MatMul(Layer):
     
     def __init__(self, rows, cols):

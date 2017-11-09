@@ -237,6 +237,4 @@ def hash_code(activation):
         code *= 2
     return code
     
-
-    
 main()
