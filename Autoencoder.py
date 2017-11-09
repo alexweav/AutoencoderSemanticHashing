@@ -54,3 +54,14 @@ class Autoencoder(object):
         code, inputs = self.EvaluateEncoder(data, inputs)
         return self.EvaluateDecoder(code, inputs)
 
+    def Backprop(self, prev_inputs, d_loss):
+        grads = {}
+        deriv = d_loss
+        for layer in reversed(self.decoder):
+            deriv, d_param = layer.Backward(prev_inputs[layer], deriv)
+            grads[layer] = (deriv, d_param)
+        for layer in reversed(self.encoder):
+            deriv, d_param = layer.Backward(prev_inputs[layer], deriv)
+            grads[layer] = (deriv, d_param)
+        return grads
+
