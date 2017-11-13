@@ -65,3 +65,6 @@ class Autoencoder(object):
             grads[layer] = (deriv, d_param)
         return grads
 
+    def Optimize(self, grads):
+        pass
+

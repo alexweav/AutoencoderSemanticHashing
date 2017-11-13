@@ -29,6 +29,9 @@ class MatMul(Layer):
     def Param(self):
         return self.weights
 
+    def Optimize(self, optimizer, optimizer_cache, d_param):
+        pass
+
 class Bias(Layer):
 
     def __init__(self, shape):
@@ -44,6 +47,9 @@ class Bias(Layer):
     def Param(self):
         return self.bias
 
+    def Optimize(self, optimizer, optimizer_cache, d_param):
+        pass
+
 class ReLU(Layer):
     
     def Forward(self, inputs):
@@ -55,6 +61,9 @@ class ReLU(Layer):
     def Param(self):
         return None
 
+    def Optimize(self, optimizer, optimizer_cache, d_param):
+        pass
+
 class Sigmoid(Layer):
     
     def Forward(self, inputs):
@@ -65,6 +74,9 @@ class Sigmoid(Layer):
 
     def Param(self):
         return None
+
+    def Optimize(self, optimizer, optimizer_cache, d_param):
+        pass
 
 class BinaryStochastic(Layer):
     
@@ -79,4 +91,7 @@ class BinaryStochastic(Layer):
 
     def Param(self):
         return None
+
+    def Optimize(self, optimizer, optimizer_cache, d_param):
+        pass
 
