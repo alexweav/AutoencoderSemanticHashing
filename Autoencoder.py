@@ -65,6 +65,12 @@ class Autoencoder(object):
             grads[layer] = (deriv, d_param)
         return grads
 
-    def Optimize(self, grads):
-        pass
+    def Optimize(self, grads, optimizer, cache={}):
+        for layer in self.encoder:
+            subcache = cache.get(layer, {})
+            cache[layer] = layer.Optimize(optimizer, subcache, grads[layer][1])
+        for layer in self.decoder:
+            subcache = cache.get(layer, {})
+            cache[layer] = layer.Optimize(optimizer, subcache, grads[layer][1])
+        return cache
 

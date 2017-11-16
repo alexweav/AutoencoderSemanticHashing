@@ -30,7 +30,9 @@ class MatMul(Layer):
         return self.weights
 
     def Optimize(self, optimizer, optimizer_cache, d_param):
-        optimizer.Optimize(self.weights, d_param, optimizer_cache)
+        new_weights, cache = optimizer.Optimize(self.weights, d_param, optimizer_cache)
+        self.weights = new_weights
+        return cache
 
 class Bias(Layer):
 
@@ -48,7 +50,9 @@ class Bias(Layer):
         return self.bias
 
     def Optimize(self, optimizer, optimizer_cache, d_param):
-        optimizer.Optimize(self.bias, d_param, optimizer_cache)
+        new_bias, cache = optimizer.Optimize(self.bias, d_param, optimizer_cache)
+        self.bias = new_bias
+        return cache
 
 class ReLU(Layer):
     
@@ -62,7 +66,7 @@ class ReLU(Layer):
         return None
 
     def Optimize(self, optimizer, optimizer_cache, d_param):
-        pass
+        return None
 
 class Sigmoid(Layer):
     
@@ -76,7 +80,7 @@ class Sigmoid(Layer):
         return None
 
     def Optimize(self, optimizer, optimizer_cache, d_param):
-        pass
+        return None
 
 class BinaryStochastic(Layer):
     
@@ -93,5 +97,5 @@ class BinaryStochastic(Layer):
         return None
 
     def Optimize(self, optimizer, optimizer_cache, d_param):
-        pass
+        return None
 
