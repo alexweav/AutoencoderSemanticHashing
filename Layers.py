@@ -30,7 +30,7 @@ class MatMul(Layer):
         return self.weights
 
     def Optimize(self, optimizer, optimizer_cache, d_param):
-        pass
+        optimizer.Optimize(self.weights, d_param, optimizer_cache)
 
 class Bias(Layer):
 
@@ -48,7 +48,7 @@ class Bias(Layer):
         return self.bias
 
     def Optimize(self, optimizer, optimizer_cache, d_param):
-        pass
+        optimizer.Optimize(self.bias, d_param, optimizer_cache)
 
 class ReLU(Layer):
     
