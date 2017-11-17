@@ -1,5 +1,6 @@
 import _pickle as cPickle
 import gzip
+import numpy as np
 
 def LoadMNIST():
     data = {}
