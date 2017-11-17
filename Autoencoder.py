@@ -10,6 +10,7 @@ class Autoencoder(object):
             self.encoder.append(MatMul(previous_layer_size, layer_size))
             self.encoder.append(Bias(layer_size))
             self.encoder.append(ReLU())
+            #self.encoder.append(Sigmoid())
             previous_layer_size = layer_size
         #encoding layer
         self.encoder.append(MatMul(previous_layer_size, architecture[-1]))
@@ -22,6 +23,7 @@ class Autoencoder(object):
             self.decoder.append(MatMul(previous_layer_size, layer_size))
             self.decoder.append(Bias(layer_size))
             self.decoder.append(ReLU())
+            #self.decoder.append(Sigmoid())
             previous_layer_size = layer_size
         self.decoder.append(MatMul(architecture[1], architecture[0]))
         self.decoder.append(Bias(architecture[0]))
