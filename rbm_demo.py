@@ -7,7 +7,7 @@ import matplotlib.image as mpimg
 import pylab
 import numpy as np
 
-num_steps = 3000
+num_steps = 2000
 num_evals = 100
 eval_avgs = 30
 learning_rate = 0.01
