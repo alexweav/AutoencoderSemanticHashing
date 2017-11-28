@@ -24,8 +24,9 @@ def main():
         img, _ = select_batch(data['train_X'], 128)
         hidden = hidden_step(img, weights, bias_hidden)
         visible = visible_step(hidden, weights, bias_visible)
-        new_weights = weights + learning_rate*(np.dot(img.T, hidden_step(img, weights, bias_hidden)) - np.dot(visible.T, hidden_step(visible, weights, bias_hidden)))
-        new_bias_hidden = bias_hidden + np.sum(learning_rate*(hidden_step(img, weights, bias_hidden) - hidden_step(visible, weights, bias_hidden)), axis=0)
+        hidden_second = hidden_step(visible, weights, bias_hidden)
+        new_weights = weights + learning_rate*(np.dot(img.T, hidden) - np.dot(visible.T, hidden_second))
+        new_bias_hidden = bias_hidden + np.sum(learning_rate*(hidden - hidden_second), axis=0)
         new_bias_visible = bias_visible + np.sum(learning_rate*(img - visible), axis=0)
         weights = new_weights
         bias_hidden = new_bias_hidden
