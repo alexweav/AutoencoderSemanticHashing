@@ -19,9 +19,6 @@ class MatMul(Layer):
     def __init__(self, rows, cols):
         self.weights = np.random.randn(rows, cols) / np.sqrt(rows)
 
-    def __init__(self, weights):
-        self.weights = weights
-
     def Forward(self, inputs):
         return inputs.dot(self.weights)
 

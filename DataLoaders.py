@@ -12,3 +12,9 @@ def LoadMNIST():
     data['test_X'], data['test_y'] = test_set
     return data
 
+def SelectBatch(data, count):
+    indices = np.random.choice(data.shape[0], count, replace=False)
+    return data[indices], indices
+
+
+

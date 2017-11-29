@@ -2,6 +2,8 @@ from Layers import *
 from DataLoaders import *
 from Autoencoder import *
 from Optimizers import *
+from RBM import *
+
 import gzip
 import matplotlib
 matplotlib.use('TkAgg')
@@ -39,7 +41,12 @@ def main():
     optim = AdamOptimizer(learning_rate, 0.95, 0.95)
     losses = []
 
-    img = data['train_X'][0:1]
+    img = SelectBatch(data['train_X'], 1)[0][0:1]
+    rbm = RBM(784, 512)
+
+    plot_dual(img, rbm.Cycle(img))
+
+    """
     recon, _ = autoencoder.EvaluateFull(img)
     plot_dual(img, recon)
     for step in range(num_steps):
@@ -60,6 +67,7 @@ def main():
         batch, index = select_batch(data['test_X'], 1)
         recon, _ = autoencoder.EvaluateFull(batch)
         plot_dual(batch, recon)
+    """
 
 
 
