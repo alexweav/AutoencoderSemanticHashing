@@ -34,6 +34,11 @@ class MatMul(Layer):
         self.weights = new_weights
         return cache
 
+class PreInitializedMatMul(Layer):
+
+    def __init__(self, weights):
+        self.weights = weights
+
 class Bias(Layer):
 
     def __init__(self, shape):

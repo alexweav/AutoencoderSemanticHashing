@@ -3,6 +3,7 @@ from DataLoaders import *
 from Autoencoder import *
 from Optimizers import *
 from RBM import *
+from RBMStack import *
 
 import gzip
 import matplotlib
@@ -11,7 +12,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import pylab
 
-num_steps = 2000
+num_steps = 3000
 learning_rate = 12e-6
 batch_size = 128
 show_every = 1000
@@ -39,12 +40,14 @@ def select_batch(data, count):
 def main():
     data = LoadMNIST()
     adam_cache = {}
-    autoencoder = Autoencoder([784, 512, 256, 32])
+    autoencoder = Autoencoder([784, 512])
     optim = AdamOptimizer(learning_rate, 0.95, 0.95)
     losses = []
 
+    stack = RBMStack([784, 512, 256])
     img, _ = SelectBatch(data['train_X'], 1)
-    rbm = RBM(784, 512)
+    #rbm = RBM(784, 64)
+    rbm = stack.Stack()[0]
 
     plot_dual(img, rbm.Cycle(img))
 
