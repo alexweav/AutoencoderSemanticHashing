@@ -11,11 +11,13 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import pylab
 
-num_steps = 3000
+num_steps = 2000
 learning_rate = 12e-6
 batch_size = 128
 show_every = 1000
-num_evals = 5
+num_evals = 100
+
+print_every = 100
 
 def plot_dual(img1, img2):
     img1 = img1.reshape(28, 28)
@@ -41,10 +43,20 @@ def main():
     optim = AdamOptimizer(learning_rate, 0.95, 0.95)
     losses = []
 
-    img = SelectBatch(data['train_X'], 1)[0][0:1]
+    img, _ = SelectBatch(data['train_X'], 1)
     rbm = RBM(784, 512)
 
     plot_dual(img, rbm.Cycle(img))
+
+    for step in range(num_steps):
+        batch, _ = SelectBatch(data['train_X'], 128)
+        rbm.Train(batch, 0.01)
+        if step % print_every == 0:
+            print('Step', step, 'completed.')
+    for step in range(num_evals):
+        img, _ = SelectBatch(data['train_X'], 1)
+        plot_dual(img, rbm.CycleContinuous(img))
+
 
     """
     recon, _ = autoencoder.EvaluateFull(img)

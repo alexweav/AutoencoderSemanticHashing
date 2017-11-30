@@ -26,9 +26,17 @@ class RBM(object):
         return x
 
     def Cycle(self, initial_state):
-        hidden = self.Sample(self.PropHidden(initial_state))
-        return self.Sample(self.PropVisible(hidden))
+        return self.Sample(self.CycleContinuous(initial_state))
 
-    def Train(self, initial_state):
-        pass
+    def CycleContinuous(self, initial_state):
+        hidden = self.Sample(self.PropHidden(initial_state))
+        return self.PropVisible(hidden)
+
+    def Train(self, initial_state, learning_rate):
+        hidden = self.Sample(self.PropHidden(initial_state))
+        recon = self.Sample(self.PropVisible(hidden))
+        hidden_recon = self.Sample(self.PropHidden(recon))
+        self.weights = self.weights + learning_rate*(np.dot(initial_state.T, hidden) - np.dot(recon.T, hidden_recon))
+        self.bias_visible = self.bias_visible + np.sum(learning_rate*(initial_state - recon), axis=0)
+        self.bias_hidden = self.bias_hidden + np.sum(learning_rate*(hidden - hidden_recon), axis=0)
 
