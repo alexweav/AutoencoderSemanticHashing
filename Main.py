@@ -12,8 +12,8 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import pylab
 
-num_steps = 3000
-learning_rate = 12e-6
+num_steps = 2000
+learning_rate = 5e-4
 batch_size = 128
 show_every = 1000
 num_evals = 100
@@ -40,7 +40,7 @@ def select_batch(data, count):
 def main():
     data = LoadMNIST()
     adam_cache = {}
-    autoencoder = Autoencoder([784, 512])
+    autoencoder = Autoencoder([784, 512, 32])
     optim = AdamOptimizer(learning_rate, 0.95, 0.95)
     losses = []
 
@@ -56,10 +56,16 @@ def main():
         rbm.Train(batch, 0.01)
         if step % print_every == 0:
             print('Step', step, 'completed.')
+    old_rbm = stack.Stack()[0]
+    rbm = stack.Stack()[1]
+    for step in range(num_steps):
+        batch, _ = SelectBatch(data['train_X'], 128)
+        rbm.Train(old_rbm.Sample(old_rbm.PropHidden(batch)), 0.01)
+        if step % print_every == 0:
+            print('Step', step, 'completed.')
     for step in range(num_evals):
         img, _ = SelectBatch(data['train_X'], 1)
-        plot_dual(img, rbm.CycleContinuous(img))
-
+        plot_dual(img, stack.CycleContinuous(img, stack.Depth()))
 
     """
     recon, _ = autoencoder.EvaluateFull(img)
