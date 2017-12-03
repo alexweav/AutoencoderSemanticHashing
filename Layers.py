@@ -39,6 +39,21 @@ class PreInitializedMatMul(Layer):
     def __init__(self, weights):
         self.weights = weights
 
+    def Forward(self, inputs):
+        return inputs.dot(self.weights)
+    
+    def Backward(self, prev_inputs, dout):
+        self.d_weights = np.dot(prev_inputs.T, dout)
+        return np.dot(dout, self.weights.T), self.d_weights
+
+    def Param(self):
+        return self.weights
+
+    def Optimize(self, optimizer, optimizer_cache, d_param):
+        new_weights, cache = optimizer.Optimize(self.weights, d_param, optimizer_cache)
+        self.weights = new_weights
+        return cache
+
 class Bias(Layer):
 
     def __init__(self, shape):

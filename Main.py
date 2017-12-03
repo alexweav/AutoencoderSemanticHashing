@@ -63,9 +63,13 @@ def main():
         rbm.Train(old_rbm.Sample(old_rbm.PropHidden(batch)), 0.01)
         if step % print_every == 0:
             print('Step', step, 'completed.')
+
+    autoencoder = RBMAutoencoder(stack)
+
     for step in range(num_evals):
         img, _ = SelectBatch(data['train_X'], 1)
-        plot_dual(img, stack.CycleContinuous(img, stack.Depth()))
+        recon, _ = autoencoder.EvaluateFull(img)
+        plot_dual(img, recon)
 
     """
     recon, _ = autoencoder.EvaluateFull(img)

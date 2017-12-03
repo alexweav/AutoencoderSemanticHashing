@@ -1,4 +1,5 @@
 from Layers import *
+from RBMStack import *
 
 class Autoencoder(object):
 
@@ -45,7 +46,6 @@ class Autoencoder(object):
             data = layer.Forward(data)
         return data, inputs
 
-
     def EvaluateDecoder(self, data, inputs={}):
         for layer in self.decoder:
             inputs[layer] = data
@@ -75,4 +75,20 @@ class Autoencoder(object):
             subcache = cache.get(layer, {})
             cache[layer] = layer.Optimize(optimizer, subcache, grads[layer][1])
         return cache
+
+class RBMAutoencoder(Autoencoder):
+
+    def __init__(self, rbm_stack):
+        self.encoder = []
+        self.decoder = []
+        for rbm in rbm_stack.Stack():
+            self.encoder.append(PreInitializedMatMul(rbm.Weights()))
+            self.encoder.append(Bias(rbm.Weights().shape[1]))
+            self.encoder.append(Sigmoid())
+        self.encoder.append(BinaryStochastic())
+        for rbm in reversed(rbm_stack.Stack()):
+            self.decoder.append(PreInitializedMatMul(rbm.Weights().T))
+            self.decoder.append(Bias(rbm.Weights().shape[0]))
+            if rbm != rbm_stack.Stack()[0]:
+                self.decoder.append(Sigmoid())
 

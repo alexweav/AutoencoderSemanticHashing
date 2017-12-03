@@ -40,3 +40,6 @@ class RBM(object):
         self.bias_visible = self.bias_visible + np.sum(learning_rate*(initial_state - recon), axis=0)
         self.bias_hidden = self.bias_hidden + np.sum(learning_rate*(hidden - hidden_recon), axis=0)
 
+    def Weights(self):
+        return self.weights
+
