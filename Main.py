@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import pylab
 
-num_steps = 8000
+num_steps = 30
 learning_rate = 12e-5
 batch_size = 128
 show_every = 1000
@@ -40,7 +40,7 @@ def select_batch(data, count):
 def main():
     data = LoadMNIST()
     adam_cache = {}
-    autoencoder = Autoencoder([784, 512, 64])
+    autoencoder = Autoencoder([784, 256, 64])
     optim = AdamOptimizer(learning_rate, 0.95, 0.95)
     losses = []
 

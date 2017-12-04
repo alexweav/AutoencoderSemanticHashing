@@ -43,3 +43,9 @@ class RBM(object):
     def Weights(self):
         return self.weights
 
+    def VisibleBias(self):
+        return self.bias_visible
+
+    def HiddenBias(self):
+        return self.bias_hidden
+

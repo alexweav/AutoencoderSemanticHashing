@@ -34,25 +34,10 @@ class MatMul(Layer):
         self.weights = new_weights
         return cache
 
-class PreInitializedMatMul(Layer):
+class PreInitializedMatMul(MatMul):
 
     def __init__(self, weights):
         self.weights = weights
-
-    def Forward(self, inputs):
-        return inputs.dot(self.weights)
-    
-    def Backward(self, prev_inputs, dout):
-        self.d_weights = np.dot(prev_inputs.T, dout)
-        return np.dot(dout, self.weights.T), self.d_weights
-
-    def Param(self):
-        return self.weights
-
-    def Optimize(self, optimizer, optimizer_cache, d_param):
-        new_weights, cache = optimizer.Optimize(self.weights, d_param, optimizer_cache)
-        self.weights = new_weights
-        return cache
 
 class Bias(Layer):
 
@@ -73,6 +58,11 @@ class Bias(Layer):
         new_bias, cache = optimizer.Optimize(self.bias, d_param, optimizer_cache)
         self.bias = new_bias
         return cache
+
+class PreInitializedBias(Bias):
+
+    def __init__(self, bias):
+        self.bias = bias
 
 class ReLU(Layer):
     
