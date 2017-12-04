@@ -89,6 +89,5 @@ class RBMAutoencoder(Autoencoder):
         for rbm in reversed(rbm_stack.Stack()):
             self.decoder.append(PreInitializedMatMul(rbm.Weights().T))
             self.decoder.append(Bias(rbm.Weights().shape[0]))
-            if rbm != rbm_stack.Stack()[0]:
-                self.decoder.append(Sigmoid())
+            self.decoder.append(Sigmoid())
 
