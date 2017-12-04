@@ -83,11 +83,13 @@ class RBMAutoencoder(Autoencoder):
         self.decoder = []
         for rbm in rbm_stack.Stack():
             self.encoder.append(PreInitializedMatMul(rbm.Weights()))
-            self.encoder.append(Bias(rbm.Weights().shape[1]))
+            #self.encoder.append(Bias(rbm.Weights().shape[1]))
+            self.encoder.append(PreInitializedBias(rbm.HiddenBias()))
             self.encoder.append(Sigmoid())
         self.encoder.append(BinaryStochastic())
         for rbm in reversed(rbm_stack.Stack()):
             self.decoder.append(PreInitializedMatMul(rbm.Weights().T))
-            self.decoder.append(Bias(rbm.Weights().shape[0]))
+            #self.decoder.append(Bias(rbm.Weights().shape[0]))
+            self.decoder.append(PreInitializedBias(rbm.VisibleBias()))
             self.decoder.append(Sigmoid())
 

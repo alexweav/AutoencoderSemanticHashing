@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import pylab
 
-num_steps = 30
+num_steps = 3000
 learning_rate = 12e-5
 batch_size = 128
 show_every = 1000
