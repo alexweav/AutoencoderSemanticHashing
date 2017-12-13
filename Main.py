@@ -12,8 +12,8 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import pylab
 
-num_steps = 3000
-learning_rate = 12e-5
+num_steps = 6000
+learning_rate = 15e-5
 batch_size = 128
 show_every = 1000
 num_evals = 100
@@ -44,7 +44,7 @@ def main():
     optim = AdamOptimizer(learning_rate, 0.95, 0.95)
     losses = []
 
-    stack = RBMStack([784, 512, 64])
+    stack = RBMStack([784, 256, 64])
     img, _ = SelectBatch(data['train_X'], 1)
     #rbm = RBM(784, 64)
     rbm = stack.Stack()[0]
@@ -85,21 +85,21 @@ def main():
         #recon = rbm.CycleContinuous(img)
         plot_dual(img, recon)
     """
-
-    fullimage = []
-    for col_step in range(10):
-        column = []
-        for row_step in range(10):
-            img, _ = SelectBatch(data['train_X'], 1)
-            recon, _ = autoencoder.EvaluateFull(img)
-            img1 = img.reshape(28, 28)
-            img2 = recon.reshape(28, 28)
-            #disp = np.concatenate((img1, img2), axis=1)
-            disp = np.hstack([img1, img2])
-            column.append(disp)
-        fullimage.append(np.vstack(column))
-    plt.imshow(np.hstack(fullimage), cmap='Greys')
-    pylab.show()
+    for step in range(num_evals):
+        fullimage = []
+        for col_step in range(10):
+            column = []
+            for row_step in range(10):
+                img, _ = SelectBatch(data['train_X'], 1)
+                recon, _ = autoencoder.EvaluateFull(img)
+                img1 = img.reshape(28, 28)
+                img2 = recon.reshape(28, 28)
+                #disp = np.concatenate((img1, img2), axis=1)
+                disp = np.hstack([img1, img2])
+                column.append(disp)
+            fullimage.append(np.vstack(column))
+        plt.imshow(np.hstack(fullimage), cmap='Greys')
+        pylab.show()
 
 
 
